@@ -4,7 +4,7 @@ This extended version of the project expands the intelligent data orchestration 
 
 🚀 Features Overview (Additional Tasks)
 
-✅ Task 1: Threshold-Based Conditional Data Copy
+# ✅ Task 1: Threshold-Based Conditional Data Copy
 A file with a threshold value is created and stored in ADLS.
 
 The pipeline reads this file and compares the record count in the Customer table.
@@ -13,7 +13,7 @@ If the count exceeds the threshold, it copies customer data from SQL DB to ADLS 
 
 The output is stored in dynamic folders like Customer/Year/Month/Day to avoid overwriting.
 
-✅ Task 2: Pipeline Name - Foreach_Example2
+# ✅ Task 2: Pipeline Name - Foreach_Example2
 A single Copy Activity using ForEach loop copies two datasets:
 
 Product table data where ProductID > 100
@@ -22,7 +22,7 @@ Customer table data where CustomerID > 100 and < 1000
 
 The pipeline optimizes looping through table configurations dynamically using parameters.
 
-✅ Task 3: Join SQL Table & CSV File → Save as Parquet
+# ✅ Task 3: Join SQL Table & CSV File → Save as Parquet
 Reads:
 
 Customer table data from SQL
