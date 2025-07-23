@@ -16,14 +16,25 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "AzureSqlSource",
-						"queryTimeout": "02:00:00",
-						"partitionOption": "None"
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
 					},
 					"dataset": {
-						"referenceName": "AzureSqlTable1",
-						"type": "DatasetReference"
-					}
+						"referenceName": "dynamic_Json",
+						"type": "DatasetReference",
+						"parameters": {
+							"containername": "celebal-project-data",
+							"filename": "table_queries.json"
+						}
+					},
+					"firstRowOnly": false
 				}
 			},
 			{
@@ -39,9 +50,13 @@
 				],
 				"userProperties": [],
 				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup_TableQueryList').output.value",
+						"type": "Expression"
+					},
 					"activities": [
 						{
-							"name": "Copy data1",
+							"name": "Copy data from DB to ADLS",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -55,15 +70,58 @@
 							"typeProperties": {
 								"source": {
 									"type": "AzureSqlSource",
+									"sqlReaderQuery": {
+										"value": "@item().query",
+										"type": "Expression"
+									},
 									"queryTimeout": "02:00:00",
 									"partitionOption": "None"
 								},
-								"enableStaging": false
+								"sink": {
+									"type": "DelimitedTextSink",
+									"storeSettings": {
+										"type": "AzureBlobFSWriteSettings"
+									},
+									"formatSettings": {
+										"type": "DelimitedTextWriteSettings",
+										"quoteAllText": true,
+										"fileExtension": ".txt"
+									}
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
 							},
 							"inputs": [
 								{
-									"referenceName": "AzureSql_customer_data_Table",
-									"type": "DatasetReference"
+									"referenceName": "AzureSql_dynamic_Table",
+									"type": "DatasetReference",
+									"parameters": {
+										"tablename": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "All_parameters",
+									"type": "DatasetReference",
+									"parameters": {
+										"containername": "celebal-project-data",
+										"foldername": "Copy data output",
+										"filename": {
+											"value": "@item().name",
+											"type": "Expression"
+										}
+									}
 								}
 							]
 						}

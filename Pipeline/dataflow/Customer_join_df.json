@@ -22,7 +22,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "Parquet2",
+						"referenceName": "Customer_join_Parquet",
 						"type": "DatasetReference"
 					},
 					"name": "OutputParquet",
@@ -78,8 +78,7 @@
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> joinCustomerAddress",
 				"CustomerAddressSource derive({Customer ID} = toInteger({Customer ID})) ~> ConvertCustomerID",
-				"selectColumnAlias filter(selectColumnAlias@customerID > 1000 && selectColumnAlias@customerID < 2000",
-				") ~> filterCustomerID",
+				"selectColumnAlias filter(selectColumnAlias@customerID > 1000 && selectColumnAlias@customerID < 2000) ~> filterCustomerID",
 				"filterCustomerID sort(asc(selectColumnAlias@customerID, true)) ~> sort1",
 				"joinCustomerAddress select(mapColumn(",
 				"          customerID = customer_id,",

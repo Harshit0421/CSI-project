@@ -1,5 +1,5 @@
 {
-	"name": "Parquet2",
+	"name": "Customer_join_Parquet",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage1",

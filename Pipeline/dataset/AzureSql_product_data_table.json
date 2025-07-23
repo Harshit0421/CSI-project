@@ -1,5 +1,5 @@
 {
-	"name": "AzureSqlTable2",
+	"name": "AzureSql_product_data_table",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureSqlDatabase2",
