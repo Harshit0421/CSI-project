@@ -1,0 +1,110 @@
+{
+	"name": "Customer_join_df",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AzureSql_customer_data_Table",
+						"type": "DatasetReference"
+					},
+					"name": "CustomerTableSource"
+				},
+				{
+					"dataset": {
+						"referenceName": "DelimitedText2",
+						"type": "DatasetReference"
+					},
+					"name": "CustomerAddressSource"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Parquet2",
+						"type": "DatasetReference"
+					},
+					"name": "OutputParquet",
+					"rejectedDataLinkedService": {
+						"referenceName": "AzureDataLakeStorage1",
+						"type": "LinkedServiceReference"
+					}
+				}
+			],
+			"transformations": [
+				{
+					"name": "joinCustomerAddress"
+				},
+				{
+					"name": "ConvertCustomerID"
+				},
+				{
+					"name": "filterCustomerID"
+				},
+				{
+					"name": "sort1"
+				},
+				{
+					"name": "selectColumnAlias"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          customer_id as integer,",
+				"          gender as string,",
+				"          age as integer,",
+				"          annual_income as integer,",
+				"          spending_score as integer,",
+				"          profession as string,",
+				"          work_experience as integer,",
+				"          family_size as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> CustomerTableSource",
+				"source(output(",
+				"          {Customer ID} as string,",
+				"          {Customer Name} as string,",
+				"          Address as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> CustomerAddressSource",
+				"CustomerTableSource, ConvertCustomerID join(customer_id == {Customer ID},",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joinCustomerAddress",
+				"CustomerAddressSource derive({Customer ID} = toInteger({Customer ID})) ~> ConvertCustomerID",
+				"selectColumnAlias filter(selectColumnAlias@customerID > 1000 && selectColumnAlias@customerID < 2000",
+				") ~> filterCustomerID",
+				"filterCustomerID sort(asc(selectColumnAlias@customerID, true)) ~> sort1",
+				"joinCustomerAddress select(mapColumn(",
+				"          customerID = customer_id,",
+				"          gender,",
+				"          age,",
+				"          annualIncome = annual_income,",
+				"          spendingScore = spending_score,",
+				"          profession,",
+				"          workExperience = work_experience,",
+				"          familySize = family_size,",
+				"          CustomerID = {Customer ID},",
+				"          CustomerName = {Customer Name},",
+				"          Address",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectColumnAlias",
+				"sort1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> OutputParquet"
+			]
+		}
+	}
+}
