@@ -1,8 +1,9 @@
-# 🎯 Celebal_Final_Project
+## 🎯 Celebal_Final_Project
 🌐 Azure Data Factory Project: Intelligent Data Orchestration (Extended Tasks)
 This extended version of the project expands the intelligent data orchestration pipeline using Azure Data Factory, SQL Server, REST API, and Azure Data Lake Storage Gen2 (ADLS). These additions demonstrate complex automation tasks like conditional logic, threshold-based execution, dynamic folder creation, and data joins using multiple data sources.
 
 🚀 Features Overview (Additional Tasks)
+
 ✅ Task 1: Threshold-Based Conditional Data Copy
 A file with a threshold value is created and stored in ADLS.
 
