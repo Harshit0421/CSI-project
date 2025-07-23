@@ -47,13 +47,13 @@
 						"type": "DatasetReference",
 						"parameters": {
 							"Containername": "celebal-project-data",
-							"Filename": "Customers.csv"
+							"Filename": "Product_data.csv"
 						}
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "AzureSql_customer_data_Table",
+						"referenceName": "AzureSqlTable2",
 						"type": "DatasetReference"
 					}
 				]
