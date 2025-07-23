@@ -1,0 +1,66 @@
+{
+	"name": "Filter Latest File",
+	"properties": {
+		"activities": [
+			{
+				"name": "Metadata of Container",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "Container_parameter",
+						"type": "DatasetReference",
+						"parameters": {
+							"containername": "newcontainer"
+						}
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "DelimitedTextReadSettings"
+					}
+				}
+			},
+			{
+				"name": "Filter1",
+				"type": "Filter",
+				"dependsOn": [
+					{
+						"activity": "Metadata of Container",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Metadata of Container').output.childItems",
+						"type": "Expression"
+					},
+					"condition": {
+						"value": "@equals(split(item().name, '_')[1], utcnow('yyyyMMdd'))\n\n",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-02-15T18:58:59Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

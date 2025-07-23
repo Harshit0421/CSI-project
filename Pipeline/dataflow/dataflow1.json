@@ -1,0 +1,94 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "data_flow",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSql_CUST_MSTR",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				}
+			],
+			"scriptLines": [
+				"parameters{",
+				"     Filename as string",
+				"}",
+				"source(output(",
+				"          Index as string,",
+				"          {Customer Id} as string,",
+				"          {First Name} as string,",
+				"          {Last Name} as string,",
+				"          Company as string,",
+				"          City as string,",
+				"          Country as string,",
+				"          {Phone 1} as string,",
+				"          {Phone 2} as string,",
+				"          Email as string,",
+				"          {Subscription Date} as string,",
+				"          Website as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 derive(Date = toString(toDate(substring($Filename, 11, 8), 'yyyyMMdd'), 'yyyy-MM-dd')) ~> derivedColumn1",
+				"derivedColumn1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Row_id as integer,",
+				"          Customer_Id as string,",
+				"          First_Name as string,",
+				"          Last_Name as string,",
+				"          Company as string,",
+				"          City as string,",
+				"          Country as string,",
+				"          Phone_1 as string,",
+				"          Phone_2 as string,",
+				"          Email as string,",
+				"          Subscription_Date as date,",
+				"          Website as string,",
+				"          date as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          Row_id = Index,",
+				"          Customer_Id = {Customer Id},",
+				"          First_Name = {First Name},",
+				"          Last_Name = {Last Name},",
+				"          Company,",
+				"          City,",
+				"          Country,",
+				"          Phone_1 = {Phone 1},",
+				"          Phone_2 = {Phone 2},",
+				"          Email,",
+				"          Subscription_Date = {Subscription Date},",
+				"          Website,",
+				"          date = Date",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}

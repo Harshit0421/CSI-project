@@ -1,0 +1,9 @@
+{
+	"name": "power4pantherdf",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "78193e6f-f209-4e37-9415-02743d898c5a",
+		"tenantId": "59199279-a8c4-42e3-bee2-98bc22c2bd59"
+	}
+}

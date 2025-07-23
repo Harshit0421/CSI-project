@@ -1,0 +1,88 @@
+{
+	"name": "dataflow_master_child",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DelimitedText1",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSql_master_child",
+						"type": "DatasetReference"
+					},
+					"name": "sink2"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn2"
+				}
+			],
+			"scriptLines": [
+				"parameters{",
+				"     Filename as string",
+				"}",
+				"source(output(",
+				"          Index as string,",
+				"          {User Id} as string,",
+				"          {First Name} as string,",
+				"          {Last Name} as string,",
+				"          Sex as string,",
+				"          Email as string,",
+				"          Phone as string,",
+				"          {Date of birth} as string,",
+				"          {Job Title} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source2",
+				"source2 derive(Date = toString(toDate(substring($Filename, 21, 8), 'yyyyMMdd'), 'yyyy-MM-dd'),",
+				"          {Date Key} = toString(substring($Filename, 21, 8), 'yyyyMMdd')) ~> derivedColumn2",
+				"derivedColumn2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          Row_Id as integer,",
+				"          User_Id as string,",
+				"          First_Name as string,",
+				"          Last_Name as string,",
+				"          Sex as string,",
+				"          Email as string,",
+				"          Phone as string,",
+				"          Date_of_birth as date,",
+				"          Job_Title as string,",
+				"          date as string,",
+				"          date_Key as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          Row_Id = Index,",
+				"          User_Id = {User Id},",
+				"          First_Name = {First Name},",
+				"          Last_Name = {Last Name},",
+				"          Sex,",
+				"          Email,",
+				"          Phone,",
+				"          Date_of_birth = {Date of birth},",
+				"          Job_Title = {Job Title},",
+				"          date = Date,",
+				"          date_Key = {Date Key}",
+				"     )) ~> sink2"
+			]
+		}
+	}
+}

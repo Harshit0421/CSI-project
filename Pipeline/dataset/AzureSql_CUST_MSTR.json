@@ -1,0 +1,71 @@
+{
+	"name": "AzureSql_CUST_MSTR",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "Row_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Customer_Id",
+				"type": "varchar"
+			},
+			{
+				"name": "First_Name",
+				"type": "varchar"
+			},
+			{
+				"name": "Last_Name",
+				"type": "varchar"
+			},
+			{
+				"name": "Company",
+				"type": "varchar"
+			},
+			{
+				"name": "City",
+				"type": "varchar"
+			},
+			{
+				"name": "Country",
+				"type": "varchar"
+			},
+			{
+				"name": "Phone_1",
+				"type": "varchar"
+			},
+			{
+				"name": "Phone_2",
+				"type": "varchar"
+			},
+			{
+				"name": "Email",
+				"type": "varchar"
+			},
+			{
+				"name": "Subscription_Date",
+				"type": "date"
+			},
+			{
+				"name": "Website",
+				"type": "varchar"
+			},
+			{
+				"name": "date",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "CUST_MSTR"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
