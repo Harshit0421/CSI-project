@@ -1,0 +1,60 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "power4pantherdf"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
+		"AzureSqlDatabase1_password": {
+			"value": ""
+		},
+		"AzureSqlDatabase2_password": {
+			"value": ""
+		},
+		"MySql1_password": {
+			"value": ""
+		},
+		"Sftp1_password": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://power4panthersa.dfs.core.windows.net/"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_server": {
+			"value": "power4pantherserver.database.windows.net"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_database": {
+			"value": "power4pantherdb"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_userName": {
+			"value": "power4pantheradmin"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_server": {
+			"value": "celebal-demo-server.database.windows.net"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_database": {
+			"value": "celebal_task_db"
+		},
+		"AzureSqlDatabase2_properties_typeProperties_userName": {
+			"value": "power04"
+		},
+		"MySql1_properties_typeProperties_server": {
+			"value": "127.0.0.1"
+		},
+		"MySql1_properties_typeProperties_database": {
+			"value": "harshit"
+		},
+		"MySql1_properties_typeProperties_username": {
+			"value": "root"
+		},
+		"Sftp1_properties_typeProperties_host": {
+			"value": "Harshit"
+		},
+		"Sftp1_properties_typeProperties_userName": {
+			"value": "sftpuser"
+		}
+	}
+}
