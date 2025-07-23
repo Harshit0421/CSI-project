@@ -1,0 +1,28 @@
+{
+	"name": "Customer_data_Json",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"outputpath": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "customer_data.json",
+				"folderPath": {
+					"value": "@dataset().outputpath",
+					"type": "Expression"
+				},
+				"fileSystem": "celebal-project-data"
+			}
+		},
+		"schema": {}
+	}
+}

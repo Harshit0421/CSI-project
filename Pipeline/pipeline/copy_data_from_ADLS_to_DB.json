@@ -53,7 +53,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "AzureSqlTable2",
+						"referenceName": "AzureSql_customer_data_Table",
 						"type": "DatasetReference"
 					}
 				]
