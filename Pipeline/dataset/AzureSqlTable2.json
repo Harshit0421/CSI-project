@@ -1,0 +1,55 @@
+{
+	"name": "AzureSqlTable2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase2",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "customer_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "gender",
+				"type": "varchar"
+			},
+			{
+				"name": "age",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "annual_income",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "spending_score",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "profession",
+				"type": "varchar"
+			},
+			{
+				"name": "work_experience",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "family_size",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "customer_data"
+		}
+	}
+}
